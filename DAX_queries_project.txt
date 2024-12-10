@@ -1,0 +1,54 @@
+1. Create a Season Column
+Season = 
+SWITCH(
+    TRUE(),
+    Table[month] IN {12, 1, 2}, "Winter",
+    Table[month] IN {3, 4, 5}, "Spring",
+    Table[month] IN {6, 7, 8}, "Summer",
+    "Fall"
+)
+
+2. Calculate Weekend_Visits
+Weekend_Visits = Table[is_weekend] * Table[number_people]
+
+3. Average Attendance by Season
+Avg_Attendance_By_Season = 
+AVERAGEX(
+    FILTER(
+        Table,
+        Table[season] = SELECTEDVALUE(Table[season])
+    ),
+    Table[number_people]
+)
+
+
+4. Total Weekend vs. Weekday Attendance
+Total_Weekend_Attendance = 
+SUMX(
+    FILTER(
+        Table,
+        Table[is_weekend] = 1
+    ),
+    Table[number_people]
+)
+
+Total_Weekday_Attendance = 
+SUMX(
+    FILTER(
+        Table,
+        Table[is_weekend] = 0
+    ),
+    Table[number_people]
+)
+
+
+5. Holiday Attendance
+Total_Holiday_Attendance = 
+SUMX(
+    FILTER(
+        Table,
+        Table[is_holiday] = 1
+    ),
+    Table[number_people]
+)
+
